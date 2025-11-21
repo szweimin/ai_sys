@@ -1,0 +1,22 @@
+# Ruff configuration
+target-version = "py311"
+line-length = 120
+
+# Enable commonly used rules
+select = [
+    "E",  # pycodestyle errors
+    "F",  # pyflakes
+    "W",  # pycodestyle warnings
+]
+
+# Exclude directories
+exclude = [
+    ".git",
+    "__pycache__",
+    "*.pyc", 
+    ".ruff_cache",
+    ".venv",
+    "venv",
+    "build",
+    "dist",
+]
