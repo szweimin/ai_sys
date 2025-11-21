@@ -1,29 +1,28 @@
+from typing import Any
 from fastapi import APIRouter
+from app.models.health import HealthStatus, DetailedHealthStatus
 from app.services.health_service import HealthService
 
 router = APIRouter()
-health_service = HealthService()
 
 
-@router.get("")
-async def health_check() -> dict:
-    """
-    健康检查端点
-    """
-    return await health_service.check_health()
+@router.get("", response_model=HealthStatus)
+async def health_check() -> HealthStatus:
+    """基础健康检查端点"""
+    service = HealthService()
+    health_data = await service.check_health()
+    return HealthStatus(**health_data)
 
 
-@router.get("/detailed")
-async def detailed_health_check() -> dict:
-    """
-    详细健康检查端点
-    """
-    return await health_service.detailed_health_check()
+@router.get("/detailed", response_model=DetailedHealthStatus)
+async def detailed_health_check() -> DetailedHealthStatus:
+    """详细健康检查端点"""
+    service = HealthService()
+    health_data = await service.detailed_health_check()
+    return DetailedHealthStatus(**health_data)
 
 
 @router.get("/sync")
-def sync_health_check() -> dict:
-    """
-    同步健康检查端点（用于测试）
-    """
+def sync_health_check() -> dict[Any, Any]:
+    """同步健康检查端点（用于测试）"""
     return {"status": "ok", "message": "Sync health check successful"}
